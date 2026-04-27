@@ -10,7 +10,6 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="restAssured_practice" />
-        <module name="restAssured_practice (2)" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
