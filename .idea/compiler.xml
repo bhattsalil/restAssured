@@ -9,9 +9,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="restAssured_practice" />
         <module name="restAssured_practice (1)" />
+        <module name="restAssured" />
+        <module name="demoOauth" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="restAssured_practice (1)" target="11" />
+    </bytecodeTargetLevel>
   </component>
 </project>
