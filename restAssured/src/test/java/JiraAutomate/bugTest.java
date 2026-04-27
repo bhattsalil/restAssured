@@ -1,4 +1,5 @@
-package JiraAutomate;//import files.JiraPayload;
+package JiraAutomate;
+
 import files.JiraPayload;
 import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;
@@ -10,15 +11,19 @@ import static io.restassured.RestAssured.given;
 public class bugTest {
 
     static String projectPath = System.getProperty("user.dir");
-    static File imageFile = new File(projectPath + "/src/images/images.jpg");
+    static File imageFile = new File(projectPath + "/src/test/resources/images/images.jpg");
 
     public static void main(String[] args) {
 
         RestAssured.baseURI = "https://sabbee.atlassian.net";
 
-        //Basic Auth
-        String email = "salilbhatt92@gmail.com";
-        String apiToken = "ATATT3xFfGF0v2wwiZPPmQkURwsZL8lhqm40lwsV-ofeRXGoaEfAoHVRTGy5muH2PMjon2sMr_RCvcicJy4407WjQnk_FPWYk6PbF7dJzPNfQ8cdTrPXmUfYAeXNAJhwfQWJj9mzVaWR0vSdF97d9sT-uqCFFRAhiInYj8oQUULuI8Z4-WV0cd4=5ADB3AFC";
+        String email = System.getenv("JIRA_EMAIL");
+        String apiToken = System.getenv("JIRA_API_TOKEN");
+
+        if (email == null || apiToken == null) {
+            System.out.println("Set JIRA_EMAIL and JIRA_API_TOKEN before running this example.");
+            return;
+        }
 
         String createIssueResponse = given()
                 .auth().preemptive().basic(email, apiToken)
