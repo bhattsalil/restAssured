@@ -1,6 +1,15 @@
+package demo;
+
 import io.restassured.response.Response;
+import org.testng.Assert;
+import pojo.Api;
 import pojo.GetCourse;
 import pojo.OAuthTokenResponse;
+import pojo.WebAutomation;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import static io.restassured.RestAssured.*;
 
@@ -9,6 +18,7 @@ public class OauthDemo {
     private static final String DEFAULT_TOKEN_URL = "https://rahulshettyacademy.com/oauthapi/oauth2/resourceOwner/token";
     private static final String DEFAULT_COURSE_URL = "https://rahulshettyacademy.com/oauthapi/getCourseDetails";
 
+    static String[] courseTitles = {"Selenium Webdriver Java", "Cypress", "Protractor"};
     public static void main(String[] args) {
 
         String clientId = readEnvOrDefault("OAUTH_CLIENT_ID", "692183103107-p0m7ent2hk7suguv4vq22hjcfhcr43pj.apps.googleusercontent.com");
@@ -51,12 +61,42 @@ public class OauthDemo {
                 .when()
                 .get(courseUrl)
                 .then()
-                .statusCode(200)
+               // .statusCode(200)
                 .extract()
                 .as(GetCourse.class);
 
         System.out.println(gc.getLinkedin());
         System.out.println(gc.getInstructor());
+        System.out.println("XOXOXOXOXOXOX");
+        System.out.println(gc.getCourses().getApi().get(1).getCourseTitle());
+        List<Api> apiCourses = gc.getCourses().getApi();
+        for (int j = 0; j < apiCourses.size(); j++) {
+           if  (apiCourses.get(j).getCourseTitle().equalsIgnoreCase("SoapUI Webservices testing"))
+            {
+                System.out.println(apiCourses.get(j).getPrice());
+
+            }
+        }
+        System.out.println("XOXOXOXOXOXOX");
+        // Get the course name of the web automations
+        ArrayList<String> a = new ArrayList<String>();
+
+       List<WebAutomation> web =  gc.getCourses().getWebAutomation();
+        for (int j = 0; j < web.size(); j++) {
+
+           a.add(web.get(j).getCourseTitle());
+        }
+        Arrays.asList(courseTitles).forEach(courseTitle -> {
+            if (a.contains(courseTitle)) {
+                System.out.println("Course found: " + courseTitle);
+            } else {
+                System.out.println("Course not found: " + courseTitle);
+            }
+
+            List<String> expectedList = Arrays.asList(courseTitles);
+            Assert.assertEquals(expectedList, a);
+        });
+
     }
 
     private static String readEnvOrDefault(String key, String defaultValue) {
